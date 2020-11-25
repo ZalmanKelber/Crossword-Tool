@@ -1,5 +1,5 @@
-#Crossword Builder 
-##(Under Construction)
+# Crossword Builder 
+## (Under Construction)
 
 View live on Github Pages [here](https://zalmankelber.github.io/Crossword-Tool/)
 
@@ -21,7 +21,7 @@ Built in plain JavaScript (without ES6 modules) in order to allow for simple dep
 
 Once the user is satisfied with their grid arrangement, they can finalize it, at which point the individual squares become editable to allow for text to be entered
 
-#Software Engineering Crossword Puzzle
+# Software Engineering Crossword Puzzle
 
 By Alex Kelber (apologies for impossibly obscure clues and outrageously bad puns)
 
