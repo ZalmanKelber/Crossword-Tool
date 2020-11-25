@@ -27,7 +27,8 @@ By Alex Kelber (apologies for impossibly obscure clues and outrageously bad puns
 
 ![crossword template](SoftwareDevelopmentCrossword.png) 
 
-ACROSS   
+**ACROSS**   
+ 
 1 \_\_\_ Mahal  
 4 Section or page, to Johann   
 8 1990s Wes. Hemisphere treaty   
@@ -67,7 +68,7 @@ ACROSS
 65 Mexican currency   
 66 Its varieties include Black, Green and Oolong   
    
-DOWN   
+**DOWN**   
    
 1 "\_\_\_\, you’re it!"  
 2 Tuna variety in Japanese cuisine   
