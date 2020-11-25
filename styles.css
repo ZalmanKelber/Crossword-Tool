@@ -1,0 +1,25 @@
+.puzzle-container {
+    display: flex;
+    justify-content: center;
+}
+
+.puzzle {
+    border: black solid 1px;
+    float: left;
+
+}
+
+.square {
+    border: black solid 1px;
+    width: 50px;
+    height: 50px;
+}
+
+.filled {
+    background-color: black;
+}
+
+.label {
+    font-size: small;
+    padding: 1px;
+}
