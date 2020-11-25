@@ -3,7 +3,7 @@
 
 View live on Github Pages [here](https://zalmankelber.github.io/Crossword-Tool/)
 
-##Basic Description
+## Basic Description
 
 Built in plain JavaScript (without ES6 modules) in order to allow for simple deployment on Github Pages.  Users can build a crossword puzzle template between size 3x3 and 55x55.  When a square is filled in or reopened, DOWN and ACROSS numbers are relabeled.  The following rules are enforced:
 
