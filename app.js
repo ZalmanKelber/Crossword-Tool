@@ -4,10 +4,14 @@ const addIndices = size => {
     for (let i = 0; i < size; i++) {
         for (let j = 0; j < size; j++) {
             const square = document.getElementById(`grid-${i}X${j}`);
-            if (!square.classList.contains("filled")) {
-                const label = document.getElementById(`label-${i}X${j}`);
-                label.innerHTML = count++;
+            const label = document.getElementById(`label-${i}X${j}`);
+            let toLabel = !square.classList.contains("filled");
+            if (toLabel && i != 0 && j != 0) {
+                const above = document.getElementById(`grid-${i - 1}X${j}`);
+                const beside = document.getElementById(`grid-${i}X${j - 1}`);
+                toLabel = above.classList.contains("filled") || beside.classList.contains("filled");
             }
+            label.innerHTML = toLabel ? count++ : "";
         }
     }
 }
@@ -26,6 +30,19 @@ const toggleFill = (i, j, size) => {
     addIndices(size);
 }
 
+const finalizeBoard = size => {
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+            const square = document.getElementById(`grid-${i}X${j}`);
+            square.addEventListener("click", e => e.preventDefault());
+            if (!square.classList.contains("filled")) {
+                const text = document.getElementById(`text-${i}X${j}`);
+                text.setAttribute("contenteditable", "true");
+            }
+        }
+    }
+}
+
 const renderBoard = () => {
     const size = window.prompt("Enter board size");
     let cols = "";
@@ -35,6 +52,7 @@ const renderBoard = () => {
         rows += "auto";
     }
     const puzzle = document.getElementById("puzzle");
+    puzzle.innerHTML = "";
     puzzle.setAttribute("style", `display: grid; 
                 grid-template-columns:${cols};
                 grid-template-rows:${rows};`);
@@ -51,10 +69,17 @@ const renderBoard = () => {
             label.setAttribute("id", `label-${i}X${j}`);
             label.setAttribute("class", "label");
             square.appendChild(label);
+            const text = document.createElement("div");
+            text.setAttribute("id", `text-${i}X${j}`);
+            text.setAttribute("class", "letter");
+            text.innerHTML = " ";
+            square.appendChild(text);
         }
     }
     addIndices(size);
+    const btn2 = document.getElementById("finalize");
+    btn2.addEventListener("click", () => finalizeBoard(size));
 }
 
-const el = document.getElementById("btn");
-el.addEventListener("click", renderBoard)
+const btn1 = document.getElementById("btn");
+btn1.addEventListener("click", renderBoard);
