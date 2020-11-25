@@ -34,10 +34,14 @@ const finalizeBoard = size => {
     for (let i = 0; i < size; i++) {
         for (let j = 0; j < size; j++) {
             const square = document.getElementById(`grid-${i}X${j}`);
-            square.addEventListener("click", e => e.preventDefault());
-            if (!square.classList.contains("filled")) {
-                const text = document.getElementById(`text-${i}X${j}`);
+            const newSquare = square.cloneNode(true);
+            square.parentNode.replaceChild(newSquare, square);
+            if (!newSquare.classList.contains("filled")) {
+                const text = document.createElement("div");
+                text.setAttribute("id", `text-${i}X${j}`);
                 text.setAttribute("contenteditable", "true");
+                text.setAttribute("class", "text");
+                newSquare.appendChild(text);
             }
         }
     }
@@ -69,11 +73,6 @@ const renderBoard = () => {
             label.setAttribute("id", `label-${i}X${j}`);
             label.setAttribute("class", "label");
             square.appendChild(label);
-            const text = document.createElement("div");
-            text.setAttribute("id", `text-${i}X${j}`);
-            text.setAttribute("class", "letter");
-            text.innerHTML = " ";
-            square.appendChild(text);
         }
     }
     addIndices(size);

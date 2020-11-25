@@ -13,9 +13,6 @@
     border: black solid 1px;
     width: 50px;
     height: 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 .filled {
@@ -25,9 +22,14 @@
 .label {
     font-size: small;
     padding: 1px;
+    position: absolute;
 }
 
 .text {
     text-align: center;
     font-size: 30px;
+    display: flex;
+    height: 50px;
+    flex-direction: column;
+    justify-content: center;
 }
