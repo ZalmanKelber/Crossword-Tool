@@ -5,17 +5,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=yes" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="styles.css">
-  <title>Crossword Tool</title>
+  <title>Crossword Builder</title>
 </head>
 
 <body>
+    <div class="container">
+        <h1 class="text-center title">Crossword Builder</h1>
+        <div class="display-info text-center">
+            <div class="btn btn-primary finalize" style="display: none;" id="finalize">Finalize grid</div>
+            <p id="two-words-error" class="text-danger" style="visibility: hidden;">Error: every square must belong to two clues</p>
+            <p id="two-letters-error" class="text-danger" style="visibility: hidden;">Error: each answer must contain at least three letters</p>
+        </div>
+        <form id="form" class="text-center select-size">
+            <fieldset class="form-group">
+                <label>Enter grid size</label><br>
+                <input type="number" name="size-input" id="size-input">
+                <p id="error-message" class="text-danger" style="display: none;">Select an odd number between 3 and 55</p>
+            </fieldset>
+            <input type="submit" class="btn btn-primary">
+        </form>
 
-    <div class="btn" id="btn">Click here to select grid size</div>
-    <div class="btn" id="finalize">Click here to finalize grid</div>
-
-    <div class="puzzle-container">
-        <div class="puzzle" id="puzzle"></div>
+        <div class="puzzle-container" id="puzzle-container">
+            <div class="puzzle" id="puzzle" style="display: none;"></div>
+        </div>
     </div>
 
     <script src="app.js"></script>
