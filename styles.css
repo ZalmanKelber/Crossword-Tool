@@ -62,9 +62,9 @@ body {
     color: red;
 }
 
-@media screen and (min-width: 700px) {
-    .clues {
-        display: flex;
-        justify-content: space-around;
-    }
-  }
+.clues {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 500px;
+}

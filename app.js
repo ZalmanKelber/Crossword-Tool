@@ -215,8 +215,8 @@ const handleKeyDown = (e) => { //determine if arrow keys were pressed
     if (state.selected == null) {
         return;
     }
-    if ((e.keyCode >= 65 && keyCode < 90) || e.keyCode == 8) {
-        handleInput(keyCode);
+    if ((e.keyCode >= 65 && e.keyCode < 90) || e.keyCode == 8) {
+        handleInput(e.keyCode);
         return;
     }
     switch (e.keyCode) {
@@ -320,13 +320,18 @@ const renderClues = () => {
     const cluesElement = document.getElementById("clues");
     cluesElement.setAttribute("style", "display: default;");
     ["across", "down"].forEach(dir => {
-        const dirElement = document.getElementById(dir);
+        const dirHeading = document.createElement("h4");
+        dirHeading.innerHTML = dir.toUpperCase();
+        const rule = document.createElement("hr");
+        cluesElement.appendChild(dirHeading);
+        cluesElement.appendChild(rule);
         for (let i = 0; i < Object.keys(state.clues.down).length + Object.keys(state.clues.across).length; i++) { //searches for numbered clues in range equal to total answers
             if (i in state.clues[dir]) {
                 const clueText = document.createElement("p");
                 clueText.setAttribute("id", `clue-${i}-${dir}`);
+                clueText.setAttribute("class", "clue-text");
                 clueText.innerHTML = `<strong>${i}</strong> ${state.clues[dir][i]}`;
-                dirElement.appendChild(clueText);
+                cluesElement.appendChild(clueText);
                 addEditButton(clueText, dir, i);
             }
         }
@@ -355,7 +360,7 @@ const finalizeBoard = () => {
     initializeClues();
     renderClues();
     window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("input", input => handleInput(input));
+    // window.addEventListener("input", input => handleKeyDown(input));
     window.addEventListener("click", () => handleSelect(-1, -1)); //changes selected element to null
     document.getElementById("display-info").setAttribute("style", "display: none;")
 }
