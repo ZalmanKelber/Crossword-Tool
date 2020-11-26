@@ -79,7 +79,7 @@ By Alex Kelber (apologies for impossibly obscure clues and outrageously bad puns
 7 Wife of Eric Trump   
 8 Viet \_\_\_  
 9 Reddit Q & A letters   
-**10 “Ship of web applications!”**  
+**10 “I pity the web application!”**  
 11 Major chord, e.g. \_\_\_\_\_  
 12 ".txt isn’t optimal.  Put the data in \_\_\_\_ file"   
 17 Number of times a repetitive task must be completed, say   
