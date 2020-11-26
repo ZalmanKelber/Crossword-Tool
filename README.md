@@ -29,6 +29,10 @@ Once the user is satisfied with their grid arrangement, they can finalize it, at
 
 * Add "download" and "review" buttons that generate pdfs
 
+* Move down or right to next empty square once a letter is entered
+
+* Add links to One Look or some other resource
+
 # Software Engineering Crossword Puzzle
 
 By Alex Kelber (apologies for impossibly obscure clues and outrageously bad puns)
