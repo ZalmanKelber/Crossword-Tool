@@ -21,6 +21,14 @@ Built in plain JavaScript (without ES6 modules) in order to allow for simple dep
 
 Once the user is satisfied with their grid arrangement, they can finalize it, at which point the individual squares become editable to allow for text to be entered
 
+## To do:
+
+* Split up javaScript into smaller modules using IIFE's
+
+* Fix formatting so that clue text wraps around puzzle in even columns
+
+* Add "download" and "review" buttons that generate pdfs
+
 # Software Engineering Crossword Puzzle
 
 By Alex Kelber (apologies for impossibly obscure clues and outrageously bad puns)
