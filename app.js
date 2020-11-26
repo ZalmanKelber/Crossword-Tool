@@ -277,26 +277,32 @@ const initializeClues = () => {
 
 const handleEdit = (e, dir, i) => {
     e.preventDefault();
+    const saveFunction = e => { //NB: variable shadowing with e throughout handleEdit function
+        e.preventDefault;
+        clueText.innerHTML = `<strong>${i}</strong> ${state.clueEdit[dir][i]}`;
+        state.clues[dir][i] = state.clueEdit[dir][i];
+        addEditButton(clueText, dir, i);
+        delete state.clueEdit[dir][i];
+        form.remove();
+    }
     const currentClueText = state.clues[dir][i];
     state.clueEdit[dir][i] = state.clues[dir][i];
     const clueText = document.getElementById(`clue-${i}-${dir}`);
     const form = document.createElement("form");
+    form.addEventListener("submit", e => e.preventDefault());
     const formInput = document.createElement("input");
     formInput.setAttribute("type", "text");
     formInput.setAttribute("value", currentClueText);
-    formInput.addEventListener("input", e => {
+    formInput.addEventListener("keyup", e => {
+        if (e.key == "Enter") {
+            saveFunction(e);
+        }
         state.clueEdit[dir][i] = formInput.value;
     });
     const saveButton = document.createElement("a");
     saveButton.innerHTML = "save";
     saveButton.setAttribute("class", "btn");
-    saveButton.addEventListener("click", e => {
-        e.preventDefault;
-        clueText.innerHTML = `<strong>${i}</strong> ${state.clueEdit[dir][i]}`;
-        addEditButton(clueText, dir, i);
-        delete state.clueEdit[dir][i];
-        form.remove();
-    });
+    saveButton.addEventListener("click", saveFunction);
     clueText.appendChild(form);
     form.appendChild(formInput);
     form.appendChild(saveButton);
