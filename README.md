@@ -50,8 +50,8 @@ By Alex Kelber (apologies for impossibly obscure clues and outrageously bad puns
 37 \_\_\_DAS (acronym for order of mathematical operations)  
 38 Single \_\_\_ (disposable)  
 39 Archaeological site   
-40 Letters preceding D in avbody that includes many first world nations 
-41 Grand Central or Penn   
+40 Letters preceding D in avbody that includes many first world nations   
+41 Grand Central or Penn     
 43 Sch. founded by Thomas Jefferson    
 44 Radio Channel owned by Washington State’s Mercer Island School District   
 46 Frequent second or last word in twitter bios   
@@ -81,7 +81,7 @@ By Alex Kelber (apologies for impossibly obscure clues and outrageously bad puns
 9 Reddit Q & A letters   
 **10 “Ship of web applications!”**  
 11 Major chord, e.g. \_\_\_\_\_  
-12 ".txt isn’t optimal.  Put the data in \_\_\_\_ file" 
+12 ".txt isn’t optimal.  Put the data in \_\_\_\_ file"   
 17 Number of times a repetitive task must be completed, say   
 **19 Place to push commits with a bull’s eye?**  
 **21 Algorithms for ordering ice cream cones, maybe?**   
@@ -93,11 +93,11 @@ By Alex Kelber (apologies for impossibly obscure clues and outrageously bad puns
 30 Operate an automobile   
 31 Monarchical    
 33 Letter after Delta   
-34 "The top with cannopie of greene was spred/Thicken’d with leaues of th\’\_\_\_\_\_ wanton hed"  
+34 "The top with cannopie of greene was spred/Thicken’d with leaues of th’\_\_\_\_\_ wanton hed"  
 42 English article   
-45 Mus. notation directive   
-47 Brother of Moses   
-49 Mountainous region of China   
+45 Mus. notation directive     
+47 Brother of Moses     
+49 Mountainous region of China    
 50 Seized car, perhaps   
 51 Chop onions prior to searing them, for example   
 52 Release coherent light, as gas particles   

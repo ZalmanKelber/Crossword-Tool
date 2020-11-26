@@ -14,7 +14,8 @@ const state = { //state updated with unidrectional data flow
         edge: true
     },
     totalFilled: 0,
-    filledSquares: []
+    filledSquares: [],
+    selected: null //note: only for use in EDIT_TEXT phase
 }
 
 const addIndices = () => { //adds appropriate numerical label to each square
@@ -137,6 +138,111 @@ const toggleFill = (i, j) => { //change a square and its radial symmetric opposi
     evaluateLegality();
 }
 
+const handleInput = (numericCode) => {
+    if (!state.selected) {
+        return;
+    }
+    const {x, y} = state.selected;
+    const el = document.getElementById(`text-${x}X${y}`);
+    el.innerHTML = numericCode == 8 ? "" : String.fromCharCode(numericCode);
+}
+
+const moveLeft = () => {
+    const {filledSquares, selected, size} = state;
+    const {x, y} = selected;
+    if (x == 0 && y == 0) {
+        return;
+    }
+    const firstRow = y == 0 ? x - 1 : x; //determine which row the next square to check is on
+    for (let i = firstRow; i >= 0; i--) {
+        for (let j = i == firstRow ? (y == 0 ? size - 1 : y - 1) : size - 1; j >= 0; j--) { //if we're on the firt row, start by checking the next column
+            if (!filledSquares[i][j]) {
+                handleSelect(i, j);
+                return;
+            }
+        }
+    }
+}
+
+const moveDown = () => {
+    const {filledSquares, selected} = state;
+    const {x, y} = selected;
+    if (x == 0) {
+        return;
+    }
+    for (let i = x - 1; i >= 0; i--) {
+        if (!filledSquares[i][y]) {
+            handleSelect(i, y);
+            return;
+        }
+    }
+}
+
+const moveRight = () => {
+    const {filledSquares, selected, size} = state;
+    const {x, y} = selected;
+    if (x == size - 1 && y == size - 1) {
+        return;
+    }
+    const firstRow = y == size - 1 ? x + 1 : x; //determine which row the next square to check is on
+    for (let i = firstRow; i < size; i++) {
+        for (let j = i == firstRow ? (y + 1) % size : 0; j < size; j++) { //if we're on the firt row, start by checking the next column
+            if (!filledSquares[i][j]) {
+                handleSelect(i, j);
+                return;
+            }
+        }
+    }
+}
+
+const moveUp = () => {
+    const {filledSquares, selected, size} = state;
+    const {x, y} = selected;
+    if (x == size - 1) {
+        return;
+    }
+    for (let i = x + 1; i < size; i++) {
+        if (!filledSquares[i][y]) {
+            handleSelect(i, y);
+            return;
+        }
+    }
+}
+
+const handleKeyDown = ({keyCode}) => { //determine if arrow keys were pressed
+    if ((keyCode >= 65 && keyCode < 90) || keyCode == 8) {
+        handleInput(keyCode);
+    }
+    switch (keyCode) {
+        case 37:
+            moveLeft();
+            break;
+        case 38:
+            moveDown();
+            break;
+        case 39:
+            moveRight();
+            break;
+        case 40:
+            moveUp();
+            break;
+        default:
+            break;
+    }
+}
+
+const handleSelect = (i, j) => {
+    if (state.selected) {
+        const {x, y} = state.selected;
+        const oldSelected = document.getElementById(`grid-${x}X${y}`);
+        oldSelected.classList.remove("selected");
+    }
+    state.selected = {x: i, y: j};
+    const {x, y} = state.selected;
+    const newSelected = document.getElementById(`grid-${x}X${y}`);
+    newSelected.classList.add("selected");
+}
+
 const finalizeBoard = () => {
     for (let i = 0; i < state.size; i++) {
         for (let j = 0; j < state.size; j++) {
@@ -146,12 +252,15 @@ const finalizeBoard = () => {
             if (!newSquare.classList.contains("filled")) {
                 const text = document.createElement("div");
                 text.setAttribute("id", `text-${i}X${j}`);
-                text.setAttribute("contenteditable", "true");
                 text.setAttribute("class", "text");
+                text.addEventListener("input", input => handleTextEdit(text, input));
+                text.addEventListener("click", () => handleSelect(i, j));
                 newSquare.appendChild(text);
             }
         }
     }
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("input", input => handleInput(input));
 }
 
 const renderBoard = () => {

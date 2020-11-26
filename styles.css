@@ -44,6 +44,10 @@ body {
     justify-content: center;
 }
 
+.selected {
+    background-color: rgb(255, 223, 223);
+}
+
 .finalize {
     margin-bottom: 15px;
 }
