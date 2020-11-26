@@ -2,6 +2,11 @@ body {
     overflow: scroll;
 }
 
+.main-content {
+    display: flex;
+    flex-direction: column;
+}
+
 .title {
     margin: 30px 0;
 }
@@ -13,6 +18,7 @@ body {
 .puzzle-container {
     display: flex;
     justify-content: center;
+    margin-bottom: 30px;
 }
 
 .puzzle {
@@ -45,9 +51,20 @@ body {
 }
 
 .selected {
-    background-color: rgb(255, 223, 223);
+    background-color: #5bc0de;
 }
 
 .finalize {
     margin-bottom: 15px;
 }
+
+.edit-button {
+    color: red;
+}
+
+@media screen and (min-width: 700px) {
+    .clues {
+        display: flex;
+        justify-content: space-around;
+    }
+  }

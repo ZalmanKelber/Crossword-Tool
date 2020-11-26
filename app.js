@@ -15,7 +15,9 @@ const state = { //state updated with unidrectional data flow
     },
     totalFilled: 0,
     filledSquares: [],
-    selected: null //note: only for use in EDIT_TEXT phase
+    selected: null, //note: only for use in EDIT_TEXT phase
+    clues: {across: {}, down: {}},
+    clueEdit: {across: {}, down: {}}
 }
 
 const addIndices = () => { //adds appropriate numerical label to each square
@@ -209,11 +211,15 @@ const moveUp = () => {
     }
 }
 
-const handleKeyDown = ({keyCode}) => { //determine if arrow keys were pressed
-    if ((keyCode >= 65 && keyCode < 90) || keyCode == 8) {
-        handleInput(keyCode);
+const handleKeyDown = (e) => { //determine if arrow keys were pressed
+    if (state.selected == null) {
+        return;
     }
-    switch (keyCode) {
+    if ((e.keyCode >= 65 && keyCode < 90) || e.keyCode == 8) {
+        handleInput(keyCode);
+        return;
+    }
+    switch (e.keyCode) {
         case 37:
             moveLeft();
             break;
@@ -227,20 +233,98 @@ const handleKeyDown = ({keyCode}) => { //determine if arrow keys were pressed
             moveUp();
             break;
         default:
-            break;
+            return;
     }
+    e.preventDefault();
 }
 
-const handleSelect = (i, j) => {
+const handleSelect = (i, j) => { //use i = -1 to set selected element to null
     if (state.selected) {
         const {x, y} = state.selected;
         const oldSelected = document.getElementById(`grid-${x}X${y}`);
         oldSelected.classList.remove("selected");
     }
+    if (i == -1) {
+        state.selected = null;
+        return;
+    }
     state.selected = {x: i, y: j};
     const {x, y} = state.selected;
     const newSelected = document.getElementById(`grid-${x}X${y}`);
     newSelected.classList.add("selected");
+}
+
+const initializeClues = () => {
+    const {filledSquares, size} = state;
+    let count = 1;
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+            if (!filledSquares[i][j]) {
+                let answerStart = false;
+                if (i == 0 || filledSquares[i - 1][j]) {
+                    state.clues.down[count] = `Clue for ${count} down.`;
+                    answerStart = true;
+                }
+                if (j == 0 || filledSquares[i][j - 1]) {
+                    state.clues.across[count] = `Clue for ${count} across.`;
+                    answerStart = true;
+                }
+                count += answerStart ? 1 : 0;
+            }
+        }
+    }
+}
+
+const handleEdit = (e, dir, i) => {
+    e.preventDefault();
+    const currentClueText = state.clues[dir][i];
+    state.clueEdit[dir][i] = state.clues[dir][i];
+    const clueText = document.getElementById(`clue-${i}-${dir}`);
+    const form = document.createElement("form");
+    const formInput = document.createElement("input");
+    formInput.setAttribute("type", "text");
+    formInput.setAttribute("value", currentClueText);
+    formInput.addEventListener("input", e => {
+        state.clueEdit[dir][i] = formInput.value;
+    });
+    const saveButton = document.createElement("a");
+    saveButton.innerHTML = "save";
+    saveButton.setAttribute("class", "btn");
+    saveButton.addEventListener("click", e => {
+        e.preventDefault;
+        clueText.innerHTML = `<strong>${i}</strong> ${state.clueEdit[dir][i]}`;
+        addEditButton(clueText, dir, i);
+        delete state.clueEdit[dir][i];
+        form.remove();
+    });
+    clueText.appendChild(form);
+    form.appendChild(formInput);
+    form.appendChild(saveButton);
+}
+
+const addEditButton = (clueText, dir, i) => {
+    const editButton = document.createElement("a");
+    editButton.setAttribute("class", "btn");
+    editButton.innerHTML = "edit";
+    editButton.addEventListener("click", e => handleEdit(e, dir, i));
+    clueText.appendChild(editButton);
+}
+
+const renderClues = () => {
+    const cluesElement = document.getElementById("clues");
+    cluesElement.setAttribute("style", "display: default;");
+    ["across", "down"].forEach(dir => {
+        const dirElement = document.getElementById(dir);
+        for (let i = 0; i < Object.keys(state.clues.down).length + Object.keys(state.clues.across).length; i++) { //searches for numbered clues in range equal to total answers
+            if (i in state.clues[dir]) {
+                const clueText = document.createElement("p");
+                clueText.setAttribute("id", `clue-${i}-${dir}`);
+                clueText.innerHTML = `<strong>${i}</strong> ${state.clues[dir][i]}`;
+                dirElement.appendChild(clueText);
+                addEditButton(clueText, dir, i);
+            }
+        }
+    })
 }
 
 const finalizeBoard = () => {
@@ -254,13 +338,20 @@ const finalizeBoard = () => {
                 text.setAttribute("id", `text-${i}X${j}`);
                 text.setAttribute("class", "text");
                 text.addEventListener("input", input => handleTextEdit(text, input));
-                text.addEventListener("click", () => handleSelect(i, j));
+                text.addEventListener("click", e => {
+                    e.stopPropagation();
+                    handleSelect(i, j);
+                });
                 newSquare.appendChild(text);
             }
         }
     }
+    initializeClues();
+    renderClues();
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("input", input => handleInput(input));
+    window.addEventListener("click", () => handleSelect(-1, -1)); //changes selected element to null
+    document.getElementById("display-info").setAttribute("style", "display: none;")
 }
 
 const renderBoard = () => {

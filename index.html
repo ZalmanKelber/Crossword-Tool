@@ -13,7 +13,7 @@
 <body>
     <div class="container">
         <h1 class="text-center title">Crossword Builder</h1>
-        <div class="display-info text-center">
+        <div class="display-info text-center" id="display-info">
             <div class="btn btn-primary finalize" style="display: none;" id="finalize">Finalize grid</div>
             <p id="two-words-error" class="text-danger" style="visibility: hidden;">Error: every square must belong to two clues</p>
             <p id="two-letters-error" class="text-danger" style="visibility: hidden;">Error: each answer must contain at least three letters</p>
@@ -29,8 +29,18 @@
             <input type="submit" class="btn btn-primary">
         </form>
 
-        <div class="puzzle-container" id="puzzle-container">
-            <div class="puzzle" id="puzzle" style="display: none;"></div>
+        <div class="main-content">
+            <div class="puzzle-container" id="puzzle-container">
+                <div class="puzzle" id="puzzle" style="display: none;"></div>
+            </div>
+            <div class="clues" id="clues" style="display: none;">
+                <div class="across" id="across">
+                    <h5>ACROSS</h5>
+                </div>
+                <div class="down" id="down">
+                    <h5>DOWN</h5>
+                </div>
+            </div>
         </div>
     </div>
 
