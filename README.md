@@ -15,9 +15,9 @@ Built in plain JavaScript (without ES6 modules) in order to allow for simple dep
 
 * Every answer must be at least three letters long
 
-* All words must be connected (TO DO)
+* All words must be connected 
 
-* (Unofficial rule): No side of the grid may be completely filled in (TO DO)
+* (Unofficial rule): No side of the grid may be completely filled in 
 
 Once the user is satisfied with their grid arrangement, they can finalize it, at which point the individual squares become editable to allow for text to be entered
 
