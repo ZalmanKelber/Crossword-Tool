@@ -1,3 +1,5 @@
+"use strict";
+
 const phases = {
     INITIALIZED: "INITIALIZED",
     EDIT_GRID: "EDIT_GRID",
