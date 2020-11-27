@@ -1,12 +1,11 @@
 //"enum"-like objects for use in state object
-const phases = { INITIALIZED, EDIT_GRID, EDIT_TEXT };
-const orientations = { HORIZONTAL, VERTICAL };
-const squareStates = { EMPTY, FILLED, LETTER };
-const arrowDirections = { LEFT, UP, DOWN, RIGHT };
+const phases = { INITIALIZED: "INITIALIZED", EDIT_GRID: "EDIT_GRID", EDIT_TEXT: "EDIT_TEXT" };
+const orientations = { HORIZONTAL: "HORIZONTAL", VERTICAL: "VERTICAL" };
+const squareStates = { EMPTY: "EMPTY", FILLED: "FILLED", LETTER: "LETTER" };
 
 //util functions, which do not reference the DOM or state
 
-const utils = () => {
+const utils = (() => {
 
     const findFirstUnfilled = puzzle => {
         for (let i = 0; i < puzzle.length; i++) {
@@ -135,5 +134,32 @@ const utils = () => {
         return { x, y };
     }
 
-    return { checkTwoWords, checkThreeLetters, checkConnected, checkNoEdges, findNextSelected, findPrevSelected };
-}
+    const getWord = (puzzle, { x, y }, currentOrientation) => { //returns all indices belonging to same word as selected square
+        const indices = [[x, y]]; //NB: we are unconcerned about finding the indices in order
+        let [nextNextX, nextNextY] = currentOrientation === orientations.VERTICAL ? [x + 1, y] : [x, y + 1];
+        while (nextNextX < puzzle.length && nextNextY < puzzle.length && puzzle[nextNextX, nextNextY] !== orientations.FILLED) {
+            indices.push([nextNextX, nextNextY]);
+            [nextNextX, nextNextY] = currentOrientation === orientations.VERTICAL ? [nextNextX + 1, nextNextY] : [nextNextX, nextNextY + 1];
+        }
+        let [nextPrevX, nextPrevY] = currentOrientation === orientations.VERTICAL ? [x - 1, y] : [x, y - 1];
+        while (nextNextX >= 0 && nextNextY >= 0 && puzzle[nextPrevX, nextPrevY] !== orientations.FILLED) {
+            indices.push([nextPrevX, nextPrevY]);
+            [nextPrevX, nextPrevY] = currentOrientation === orientations.VERTICAL ? [nextPrevX - 1, nextPrevY] : [nextPrevX, nextPrevY - 1];
+        }
+        return indices;
+    } 
+
+    const initializePuzzle = length => {
+        puzzle = [];
+        for (let i = 0; i < length; i++) {
+            const row = [];
+            for (let j = 0; j < length; j++) {
+                row.push(squareStates.EMPTY);
+            }
+            puzzle.push(row);
+        }
+        return puzzle;
+    }
+
+    return { checkTwoWords, checkThreeLetters, checkConnected, checkNoEdges, findNextSelected, findPrevSelected, getWord, initializePuzzle };
+})();
