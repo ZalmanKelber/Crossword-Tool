@@ -58,12 +58,12 @@ const renderUpdate = (() => {
         squareText.innerHTML = val;
     };
 
-    const renderClue = (dir, i, newClue) => {
+    const renderOneClue = (dir, i, newClue) => {
         const clueText = document.getElementById(`clue-${i}-${dir}`);
         clueText.innerHTML = `<strong>${i}</strong> ${newClue}`;
         renderHelperFunctions.addEditButton(clueText, dir, i);
     };
 
-    return { renderViolations, toggleFill, addIndices, renderSelected, updateValue, renderClue };
+    return { renderViolations, toggleFill, addIndices, renderSelected, updateValue, renderOneClue };
 
 })();

@@ -214,7 +214,7 @@ const actions = (() => {
 
     const saveClue = (dir, i, newClue) => {
         state.setOneClue(dir, i, newClue);
-        renderUpdate.renderClue(dir, i, newClue);
+        renderUpdate.renderOneClue(dir, i, newClue);
     };
 
     const initializePuzzle = length => {

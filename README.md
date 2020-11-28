@@ -21,6 +21,16 @@ Built in plain JavaScript (without ES6 modules) in order to allow for simple dep
 
 Once the user is satisfied with their grid arrangement, they can finalize it, at which point the individual squares become editable to allow for text to be entered
 
+## App Design
+
+In order to deploy on GitHub pages, nothing requiring an HTTP server can be used, and so ES6 modules are unavailable.  All five javaScript pages are thus essentially concatenated.  Dividing the program up into five IIFE's keeps the variables exposed in the global scope to a minimum.  Within the Actions IIFE, a nested IIFE handles state: the getters and setters of the state IIFE are availabe within the Actions scope, while the actual state variables are encapsulated.
+
+The app uses a Unidrectional Data Flow, dividing the major functions into two categories: actions that update and retrieve state values, and render functions that interact with the DOM.
+
+![App Architecture](/images/AppArchitecture.png)
+
+![App Functions](/images/AppFunctions.png)
+
 ## To do:
 
 * Split up javaScript into smaller modules using IIFE's (COMPLETE)
@@ -39,7 +49,7 @@ Once the user is satisfied with their grid arrangement, they can finalize it, at
 
 By Alex Kelber (apologies for impossibly obscure clues and outrageously bad puns)
 
-![crossword template](SoftwareDevelopmentCrossword.png) 
+![crossword template](/images/SoftwareDevelopmentCrossword.png) 
 
 **ACROSS**   
  
