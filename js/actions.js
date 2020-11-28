@@ -68,7 +68,7 @@ const actions = (() => {
         //make getters and setters available as methods of state "object"
         return { 
             getPhase, setPhase, isLegal, getLegal, setTwoWords, setThreeLetters, setConnected, setNoEdges, 
-            getPuzzle, getPuzzleSquare, setPuzzle, setPuzzleSquare, getLength, getTotalFilled, incrementTotalFilled, 
+            getPuzzle, setPuzzle, setPuzzleSquare, getLength, getTotalFilled, incrementTotalFilled, 
             getTotalLetters, incrementTotalLetters, getClues, getOneClue, setClues, setOneClue, 
             getOrientation, setOrientation, getSelected, setSelected
         }
@@ -96,8 +96,8 @@ const actions = (() => {
         state.setPuzzleSquare(puzzleCopy.length - i - 1, puzzleCopy.length - j - 1, newState);
         //now that puzzle is updated, check for violations and re-render 
         checkViolations(); //will call renderViolations
-        renderUpdate.toggleFill(i, j, toFill); //use input indices so as to avoid rerendering every puzzle square 
-        renderUpdate.addIndices(puzzleCopy);
+        renderUpdate.toggleFill(i, j, toFill, puzzleCopy.length); //use input indices so as to avoid rerendering every puzzle square 
+        renderUpdate.addIndices(puzzleCopy.length);
     };
 
     const changeSelected = ({ xPrime, yPrime }) => {
@@ -219,6 +219,7 @@ const actions = (() => {
     const initializePuzzle = length => {
         state.setPuzzle(utils.initializePuzzle(length));
         renderInitial.renderPuzzle(length);
+        renderUpdate.addIndices(length);
     };
 
     const changeToEditGrid = length => {

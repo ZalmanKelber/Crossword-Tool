@@ -50,9 +50,15 @@ body {
     justify-content: center;
 }
 
-.selected {
+.selected-word {
+    background-color: #abe0fe;
+}
+
+.selected-letter {
     background-color: #5bc0de;
 }
+
+
 
 .finalize {
     margin-bottom: 15px;
