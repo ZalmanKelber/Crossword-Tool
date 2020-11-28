@@ -23,7 +23,9 @@ Once the user is satisfied with their grid arrangement, they can finalize it, at
 
 ## To do:
 
-* Split up javaScript into smaller modules using IIFE's
+* Split up javaScript into smaller modules using IIFE's (COMPLETE)
+
+* Refactor with Abraction, Encapsulation and Unidirectional Data Flow (COMPLETE)
 
 * Fix formatting so that clue text wraps around puzzle in even columns
 
