@@ -51,11 +51,11 @@ body {
 }
 
 .selected-word {
-    background-color: #abe0fe;
+    background-color: #e8e8e8;
 }
 
 .selected-letter {
-    background-color: #5bc0de;
+    background-color: #bbbbbb;
 }
 
 

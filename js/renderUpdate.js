@@ -1,4 +1,4 @@
-const rengerUpdate = (() => {
+const renderUpdate = (() => {
 
     const renderViolations = ({ twoWords, threeLetters, connected, noEdges }) => {
         document.getElementById("two-words-error")
@@ -49,7 +49,7 @@ const rengerUpdate = (() => {
         newWord.forEach(([i, j]) => {
             const square = document.getElementById(`grid-${i}X${j}`);
             const selectedClass = (i === xPrime && j === yPrime) ? "selected-letter" : "selected-word";
-            square.classList.remove(selectedClass);
+            square.classList.add(selectedClass);
         });
     };
 
@@ -61,6 +61,7 @@ const rengerUpdate = (() => {
     const renderClue = (dir, i, newClue) => {
         const clueText = document.getElementById(`clue-${i}-${dir}`);
         clueText.innerHTML = `<strong>${i}</strong> ${newClue}`;
+        renderHelperFunctions.addEditButton(clueText, dir, i);
     };
 
     return { renderViolations, toggleFill, addIndices, renderSelected, updateValue, renderClue };

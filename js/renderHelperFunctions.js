@@ -18,11 +18,11 @@ const renderHelperFunctions = (() => {
     const handleClickEdit = (e, dir, i) => { //creates form and adds event listener that saves input on pressing enter or clicking save button
         e.preventDefault();
         const clueTextElement = document.getElementById(`clue-${i}-${dir}`);
-        const form = document.createElement("form");
-        form.addEventListener("submit", e => e.preventDefault());
         const formInput = document.createElement("input");
-        formInput.setAttribute("type", "text");  //get current clue text not including the initial number
-        formInput.setAttribute("value", clueTextElement.innerHTML.substring(clueTextElement.innerHTML.indexOf("</strong>") + 10));
+        formInput.setAttribute("type", "text");  
+        const startIndex = clueTextElement.innerHTML.indexOf("</strong>") + 10; //parse innerHTML for current clue text
+        const endIndex = clueTextElement.innerHTML.indexOf(`<a class="btn">`)
+        formInput.setAttribute("value", clueTextElement.innerHTML.substring(startIndex, endIndex));
         formInput.addEventListener("keyup", e => {
             if (e.key == "Enter") {
                 e.preventDefault();
@@ -33,9 +33,9 @@ const renderHelperFunctions = (() => {
         saveButton.innerHTML = "save";
         saveButton.setAttribute("class", "btn");
         saveButton.addEventListener("click", () => actions.saveClue(dir, i, formInput.value));
-        clueTextElement.appendChild(form);
-        form.appendChild(formInput);
-        form.appendChild(saveButton);
+        clueTextElement.innerHTML = clueTextElement.innerHTML.substring(0, startIndex);
+        clueTextElement.appendChild(formInput);
+        clueTextElement.appendChild(saveButton);
     }
 
     const addEditButton = (clueTextElement, dir, i) => {

@@ -73,13 +73,13 @@ const utils = (() => {
     };
 
     const checkNoEdges = puzzle => { //because puzzle is symmetrical, we only have to check top row and leftmost column
-        return puzzle.every(row => row[0] === squareStates.FILLED) || puzzle[0].every(cell => cell === squareStates.FILLED);
+        return !(puzzle.every(row => row[0] === squareStates.FILLED) || puzzle[0].every(cell => cell === squareStates.FILLED));
     };
 
     //if wasEmpty is true, then we find the next empty square.  Otherwise, find the next non-filled square
     //x and y are the previous selected square
     const findNextSelected = (wasEmpty, puzzle, { x, y }, orientation) => {  
-        if (x === length - 1 && y === length - 1) { return { x, y }}; //if we are at the end of the board; no need to change anything
+        if (x === length - 1 && y === length - 1) { return { xPrime: x, yPrime: y}}; //if we are at the end of the board; no need to change anything
         if (orientation === orientations.HORIZONTAL) {
             const startRow = y === puzzle.length - 1 ? x + 1 : x;
             const startCol = y === puzzle.length - 1 ? 0 : y + 1;
@@ -87,7 +87,7 @@ const utils = (() => {
                 for (let j = i === startRow ? startCol : 0; j < puzzle.length; j++) {
                     const squareVal = puzzle[i][j];
                     if (squareVal === squareStates.EMPTY || (squareVal === squareStates.LETTER && !wasEmpty)) {
-                        return {x: i, y: j};
+                        return {xPrime: i, yPrime: j};
                     }
                 }
             }
@@ -98,16 +98,16 @@ const utils = (() => {
                 for (let j = i === startCol ? startRow : 0; j < puzzle.length; j++) {
                     const squareVal = puzzle[j][i];
                     if (squareVal === squareStates.EMPTY || (squareVal === squareStates.LETTER && !wasEmpty)) {
-                        return {x: j, y: i};
+                        return {xPrime: j, yPrime: i};
                     }
                 }
             }
         }
-        return { x, y };
+        return { xPrime: x, yPrime: y };
     }
 
     const findPrevSelected = (wasEmpty, puzzle, { x, y }, orientation) => {  
-        if (x === 0 && y === 0) { return { x, y }}; //if we are at the beginning of the board; no need to change anything
+        if (x === 0 && y === 0) { return { xPrime: x, yPrime: y }}; //if we are at the beginning of the board; no need to change anything
         if (orientation === orientations.HORIZONTAL) {
             const startRow = y === 0 ? x - 1 : x;
             const startCol = y === 0 ? puzzle.length - 1 : y - 1;
@@ -115,7 +115,7 @@ const utils = (() => {
                 for (let j = i === startRow ? startCol : puzzle.length - 1; j >= 0; j--) {
                     const squareVal = puzzle[i][j];
                     if (squareVal === squareStates.EMPTY || (squareVal === squareStates.LETTER && !wasEmpty)) {
-                        return {x: i, y: j};
+                        return {xPrime: i, yPrime: j};
                     }
                 }
             }
@@ -126,25 +126,30 @@ const utils = (() => {
                 for (let j = i === startCol ? startRow : puzzle.length - 1; j >= 0; j--) {
                     const squareVal = puzzle[j][i];
                     if (squareVal === squareStates.EMPTY || (squareVal === squareStates.LETTER && !wasEmpty)) {
-                        return {x: j, y: i};
+                        return {xPrime: j, yPrime: i};
                     }
                 }
             }
         }
-        return { x, y };
+        return { xPrime: x, yPrime: y };
     }
 
     const getWord = (puzzle, { x, y }, currentOrientation) => { //returns all indices belonging to same word as selected square
         const indices = [[x, y]]; //NB: we are unconcerned about finding the indices in order
-        let [nextNextX, nextNextY] = currentOrientation === orientations.VERTICAL ? [x + 1, y] : [x, y + 1];
-        while (nextNextX < puzzle.length && nextNextY < puzzle.length && puzzle[nextNextX, nextNextY] !== orientations.FILLED) {
+        const isVertical = currentOrientation === orientations.VERTICAL;
+        let nextNextX = isVertical ? x + 1 : x;
+        let nextNextY = isVertical ? y : y + 1;
+        while (nextNextX < puzzle.length && nextNextY < puzzle.length && puzzle[nextNextX][nextNextY] !== squareStates.FILLED) {
             indices.push([nextNextX, nextNextY]);
-            [nextNextX, nextNextY] = currentOrientation === orientations.VERTICAL ? [nextNextX + 1, nextNextY] : [nextNextX, nextNextY + 1];
+            nextNextX += isVertical ? 1 : 0;
+            nextNextY += isVertical ? 0 : 1;
         }
-        let [nextPrevX, nextPrevY] = currentOrientation === orientations.VERTICAL ? [x - 1, y] : [x, y - 1];
-        while (nextNextX >= 0 && nextNextY >= 0 && puzzle[nextPrevX, nextPrevY] !== orientations.FILLED) {
+        let nextPrevX = isVertical ? x - 1 : x;
+        let nextPrevY = isVertical ? y : y - 1;
+        while (nextPrevX >= 0 && nextPrevY >= 0 && puzzle[nextPrevX][nextPrevY] !== squareStates.FILLED) {
             indices.push([nextPrevX, nextPrevY]);
-            [nextPrevX, nextPrevY] = currentOrientation === orientations.VERTICAL ? [nextPrevX - 1, nextPrevY] : [nextPrevX, nextPrevY - 1];
+            nextPrevX -= isVertical ? 1 : 0;
+            nextPrevY -= isVertical ? 0 : 1;
         }
         return indices;
     } 

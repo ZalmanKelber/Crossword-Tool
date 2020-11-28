@@ -50,8 +50,7 @@ const renderInitial = (() => {
 
     const renderEditTextPhase = () => {
         window.addEventListener("keydown", e => {
-            e.preventDefault();
-            actions.handleKeyDown(e.keyCode);
+            actions.handleKeyDown(e);
         });
         window.addEventListener("click", () => actions.changeSelected({ xPrime: -1, yPrime: -1 })); //changes selected element to null
         document.getElementById("display-info").setAttribute("style", "display: none;"); //removes error messages from previous phase

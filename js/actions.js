@@ -5,7 +5,7 @@
 
 const actions = (() => {
 
-    const state = () => {
+    const state = (() => {
         //state variables:
         let phase = phases.INITIALIZED;
         const legal = { 
@@ -27,7 +27,7 @@ const actions = (() => {
 
         const isLegal = () => legal.twoWords && legal.threeLetters && legal.connected && legal.noEdges;
         const getLegal = () => {
-            return { twoWords: legal.twoWords, twoLetters: legal.threeLetters, connected: legal.connected, noEdges: legal.noEdges };
+            return { twoWords: legal.twoWords, threeLetters: legal.threeLetters, connected: legal.connected, noEdges: legal.noEdges };
         };
         const setTwoWords = newTwoWords => legal.twoWords = newTwoWords;
         const setThreeLetters = newThreeLetters => legal.threeLetters = newThreeLetters;
@@ -60,7 +60,7 @@ const actions = (() => {
         const getSelected = () => {
             return {x: selected.x, y: selected.y };
         };
-        const setSelected = (xPrime, yPrime) => {
+        const setSelected = ({ xPrime, yPrime} ) => {
             selected.x = xPrime;
             selected.y = yPrime;
         };
@@ -72,7 +72,7 @@ const actions = (() => {
             getTotalLetters, incrementTotalLetters, getClues, getOneClue, setClues, setOneClue, 
             getOrientation, setOrientation, getSelected, setSelected
         }
-    }
+    })();
 
     //actions retrieve and modify state and then call appropriate render functions
     const checkViolations = () => {
@@ -105,7 +105,7 @@ const actions = (() => {
         const puzzleCopy = state.getPuzzle();
         const currentOrientation = state.getOrientation();
         const oldWord = x === -1 ? [] : utils.getWord(puzzleCopy, { x, y }, currentOrientation);
-        const newWord = xPrime === -1 ? [] : utils.getWord(puzzleCopy, { xPrime, yPrime }, currentOrientation);
+        const newWord = xPrime === -1 ? [] : utils.getWord(puzzleCopy, { x: xPrime, y: yPrime }, currentOrientation);
         state.setSelected({ xPrime, yPrime });
         //now that we've updated state, clear the old word and add the new word in the view
         renderUpdate.renderSelected(oldWord, newWord, { xPrime, yPrime });
@@ -117,10 +117,10 @@ const actions = (() => {
         const selected = state.getSelected(); //NB: function should only be called when a square is selected
         const oldWord = utils.getWord(puzzleCopy, selected, currentOrientation);
         const newOrientation = currentOrientation === orientations.HORIZONTAL ? orientations.VERTICAL : orientations.HORIZONTAL;
-        const newWord = utils.getWord(puzzleCopy, selected, currentOrientation);
+        const newWord = utils.getWord(puzzleCopy, selected, newOrientation);
         state.setOrientation(newOrientation);
         //now that we've updated state, clear the old word and add the new word in the view
-        renderUpdate.renderSelected(oldWord, newWord, selected);
+        renderUpdate.renderSelected(oldWord, newWord, { xPrime: selected.x, yPrime: selected.y });
     };
 
     const addLetter = val => { //note that state does not store the actual value of the letter
@@ -174,16 +174,17 @@ const actions = (() => {
         }
     };
 
-    const handleKeyDown = keyCode => { //determine if arrow keys were pressed
+    const handleKeyDown = e => { //determine if arrow keys were pressed
         if (state.getSelected().x === -1) {
             return;
         }
-        if (keyCode >= 65 && keyCode < 90) {
-            addLetter(String.fromCharCode(keyCode));
+        e.preventDefault();
+        if (e.keyCode >= 65 && e.keyCode < 90) {
+            addLetter(String.fromCharCode(e.keyCode));
             return;
         }
-        if (keyCode >= 37 && keyCode < 41) {
-            handleArrow(keyCode);
+        if (e.keyCode >= 37 && e.keyCode < 41) {
+            handleArrow(e.keyCode);
         }
     };
 
@@ -198,7 +199,7 @@ const actions = (() => {
                         state.setOneClue("down", count, `Clue for ${count}-DOWN`);
                         answerStart = true;
                     }
-                    if (j == 0 || filledSquares[i][j - 1]) {
+                    if (j == 0 || puzzleCopy[i][j - 1] === squareStates.FILLED) {
                         state.setOneClue("across", count, `Clue for ${count}-ACROSS`);
                         answerStart = true;
                     }
