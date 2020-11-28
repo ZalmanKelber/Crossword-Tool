@@ -81,7 +81,7 @@ const actions = (() => {
         state.setThreeLetters(utils.checkThreeLetters(puzzleCopy));
         state.setConnected(utils.checkConnected(puzzleCopy, state.getTotalFilled()));
         state.setNoEdges(utils.checkNoEdges(puzzleCopy));
-        //renderUpdate.renderViolations(state.getLegal());
+        renderUpdate.renderViolations(state.getLegal());
     };
 
     const toggleSquare = (i, j) => {
@@ -174,6 +174,19 @@ const actions = (() => {
         }
     };
 
+    const handleKeyDown = keyCode => { //determine if arrow keys were pressed
+        if (state.getSelected().x === -1) {
+            return;
+        }
+        if (keyCode >= 65 && keyCode < 90) {
+            addLetter(String.fromCharCode(keyCode));
+            return;
+        }
+        if (keyCode >= 37 && keyCode < 41) {
+            handleArrow(keyCode);
+        }
+    };
+
     const initializeClues = () => {
         const puzzleCopy = state.getPuzzle();
         let count = 1;
@@ -218,14 +231,15 @@ const actions = (() => {
         if (state.isLegal()) {
             initializeClues(); //updates state and calls renderInitial.renderClues
             state.setPhase(phases.EDIT_TEXT);
-            renderInitial.renderFinalGrid();
+            renderInitial.renderFinalPuzzle(state.getLength());
+            renderInitial.renderEditTextPhase();
         }
     }
 
     return {
         checkViolations, toggleSquare, changeSelected, changeOrientation, addLetter, 
-        handleArrow, handleClick, initializeClues, saveClue, initializePuzzle, changeToEditGrid,
-        changeToEditText
+        handleArrow, handleClick, handleKeyDown, initializeClues, saveClue, initializePuzzle, 
+        changeToEditGrid, changeToEditText
     };
 
 })();
