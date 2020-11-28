@@ -132,7 +132,7 @@ const actions = (() => {
         const nextSelected = utils.findNextSelected(wasEmpty, puzzle, {x: i, y: j}, state.getOrientation()); 
         changeSelected(nextSelected); //will trigger re-render
         //render the letter in the appropriate square
-        renderUpdate.updateValue(i, j, val);
+        renderUpdate.updateValue(i, j, val ? val : "");
     };
 
     const handleClick = ({ xPrime, yPrime }) => { //if we click on a square that has already been selected, change the orientation
@@ -179,8 +179,13 @@ const actions = (() => {
             return;
         }
         e.preventDefault();
+        console.log(e.key);
         if (e.keyCode >= 65 && e.keyCode < 90) {
             addLetter(String.fromCharCode(e.keyCode));
+            return;
+        }
+        if (e.key === "Backspace" || e.keyCode === 8) {
+            addLetter(null);
             return;
         }
         if (e.keyCode >= 37 && e.keyCode < 41) {

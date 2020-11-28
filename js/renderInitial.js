@@ -1,6 +1,7 @@
 const renderInitial = (() => {
 
-    const SQUARE_LENGTH = 50;
+    const DEFAULT_SQUARE_LENGTH = 50;
+    let scale = 1; //variable can be assigned and accessed by other renderInitial functions
     
     const initializePage = () => {
         const form = document.getElementById("form");
@@ -15,8 +16,9 @@ const renderInitial = (() => {
         puzzle.setAttribute("style", `display: grid; 
                     grid-template-columns: repeat(${length}, auto);
                     grid-template-rows: repeat(${length}, auto);`);
-
-        if (SQUARE_LENGTH * length > window.innerWidth * .8) { //if puzzle is larger than window, we don't want to center it
+        const squareLength = Math.min(window.innerWidth * .8 / length, DEFAULT_SQUARE_LENGTH);
+        scale = squareLength / DEFAULT_SQUARE_LENGTH;
+        if (squareLength * length > window.innerWidth * .8) { //if puzzle is larger than window, we don't want to center it
             const puzzleContainer = document.getElementById("puzzle-container");
             puzzleContainer.setAttribute("style", `float: left; 
                     margin-left: 10vw;`)
@@ -28,13 +30,14 @@ const renderInitial = (() => {
                 square.setAttribute("class", "square");
                 square.setAttribute("style", `grid-row: ${i + 1} / ${i + 2};
                                                 grid-column: ${j + 1} / ${j + 2};
-                                                height: ${SQUARE_LENGTH}px;
-                                                width: ${SQUARE_LENGTH}px;`)
+                                                height: ${squareLength}px;
+                                                width: ${squareLength}px;`)
                 square.addEventListener("click", () => actions.toggleSquare(i, j)); //add event listener to each square to toggle it when clicked
                 puzzle.appendChild(square);
                 const label = document.createElement("div");
                 label.setAttribute("id", `label-${i}X${j}`); //label divs will be used for numerical clue indexes on puzzle
                 label.setAttribute("class", "label");
+                label.setAttribute("style", `font-size: ${1.2 * Math.max(.5, scale)}rem;`)
                 square.appendChild(label);
             }
         }
@@ -66,6 +69,7 @@ const renderInitial = (() => {
                     const text = document.createElement("div");
                     text.setAttribute("id", `text-${i}X${j}`); //text div will display letters entered
                     text.setAttribute("class", "text");
+                    text.setAttribute("style", `font-size: ${30 * scale}px; height: ${50 * scale}px;`)
                     text.addEventListener("click", e => {
                         e.stopPropagation();
                         actions.handleClick({ xPrime: i, yPrime: j });

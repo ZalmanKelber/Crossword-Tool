@@ -52,7 +52,9 @@ const utils = (() => {
     };
 
     const checkConnected = (puzzle, totalFilled) => {
-        const [i, j] = findFirstUnfilled(puzzle); //locate the first empty square, in order to begin search
+        const firstUnfilled = findFirstUnfilled(puzzle);
+        if (!firstUnfilled) { return true; }
+        const [i, j] = firstUnfilled; //locate the first empty square, in order to begin search
         const found = new Set();
         found.add(i + "X" + j);
         const stack = [[i, j]];
