@@ -23,9 +23,9 @@ const utils = (() => {
                 //check row first
                 if ((j === puzzle.length || puzzle[i][j] === squareStates.FILLED) && (j < 2 || puzzle[i][j - 2] === squareStates.FILLED) && puzzle[i][j - 1] !== squareStates.FILLED) {
                     return false;
-                } 
+                }  
                 //check column
-                if ((j === puzzle.length || puzzle[j][i]) === squareStates.FILLED && (j < 2 || puzzle[j - 2][i]) === squareStates.FILLED && puzzle[j - 1][i] !== squareStates.FILLED) { 
+                if ((j === puzzle.length || puzzle[j][i] === squareStates.FILLED) && (j < 2 || puzzle[j - 2][i] === squareStates.FILLED) && puzzle[j - 1][i] !== squareStates.FILLED) { 
                     return false;
                 }
             }
