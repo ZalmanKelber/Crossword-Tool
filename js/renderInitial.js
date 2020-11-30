@@ -57,6 +57,12 @@ const renderInitial = (() => {
         });
         window.addEventListener("click", () => actions.changeSelected({ xPrime: -1, yPrime: -1 })); //changes selected element to null
         document.getElementById("display-info").setAttribute("style", "display: none;"); //removes error messages from previous phase
+        const pdfButton = document.getElementById("pdf-button");
+        pdfButton.setAttribute("style", "display: default;")
+        pdfButton.addEventListener("click", e => {
+            e.preventDefault();
+            actions.generatePdf();
+        })
     };
 
     const renderFinalPuzzle = length => {

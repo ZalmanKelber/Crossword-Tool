@@ -179,7 +179,6 @@ const actions = (() => {
             return;
         }
         e.preventDefault();
-        console.log(e.key);
         if (e.keyCode >= 65 && e.keyCode < 90) {
             addLetter(String.fromCharCode(e.keyCode));
             return;
@@ -232,7 +231,7 @@ const actions = (() => {
         initializePuzzle(length); //updates state and calls renderInitial.renderPuzzle
         state.setPhase(phases.EDIT_GRID);
         renderInitial.renderEditGridPhase();
-    } 
+    };
 
     const changeToEditText = () => {
         if (state.isLegal()) {
@@ -241,12 +240,16 @@ const actions = (() => {
             renderInitial.renderFinalPuzzle(state.getLength());
             renderInitial.renderEditTextPhase();
         }
-    }
+    };
+
+    const generatePdf = () => {
+        pdf.generatePdf(state.getPuzzle(), state.getClues());
+    };
 
     return {
         checkViolations, toggleSquare, changeSelected, changeOrientation, addLetter, 
         handleArrow, handleClick, handleKeyDown, initializeClues, saveClue, initializePuzzle, 
-        changeToEditGrid, changeToEditText
+        changeToEditGrid, changeToEditText, generatePdf
     };
 
 })();

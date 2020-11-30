@@ -20,6 +20,7 @@
             <p id="divided-error" class="text-danger" style="visibility: hidden;">Error: all answers must be connected</p>
             <p id="edge-filled-error" class="text-danger" style="visibility: hidden;">Error: edge may not be completely filled in</p>
         </div>
+        <div id="pdf-button" class=" btn btn-success text-center" style="display: none;">Generate pdf</div>
         <form id="form" class="text-center select-size">
             <fieldset class="form-group">
                 <label>Enter grid size</label><br>
@@ -37,6 +38,13 @@
             </div>
         </div>
     </div>
+
+    <!-- jQuery (only used for jsPdf) -->
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <!-- jsPdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+    <!-- app -->
+    <script src="./js/pdf.js"></script>
     <script src="./js/renderHelperFunctions.js"></script>
     <script src="./js/renderInitial.js"></script>
     <script src="./js/renderUpdate.js"></script>
