@@ -2,6 +2,10 @@ body {
     overflow: scroll;
 }
 
+.container {
+    background-color: white;
+}
+
 .main-content {
     display: flex;
     flex-direction: column;
@@ -19,6 +23,7 @@ body {
     display: flex;
     justify-content: center;
     margin-bottom: 30px;
+    background-color: white;
 }
 
 .puzzle {
@@ -55,7 +60,6 @@ body {
 .selected-letter {
     background-color: #bbbbbb;
 }
-
 
 
 .finalize {

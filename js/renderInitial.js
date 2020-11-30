@@ -1,6 +1,7 @@
 const renderInitial = (() => {
 
     const DEFAULT_SQUARE_LENGTH = 50;
+    const LETTER_WIDTH = 563;
     let scale = 1; //variable can be assigned and accessed by other renderInitial functions
     
     const initializePage = () => {
@@ -16,9 +17,9 @@ const renderInitial = (() => {
         puzzle.setAttribute("style", `display: grid; 
                     grid-template-columns: repeat(${length}, auto);
                     grid-template-rows: repeat(${length}, auto);`);
-        const squareLength = Math.min(window.innerWidth * .8 / length, DEFAULT_SQUARE_LENGTH);
+        const squareLength = Math.min(LETTER_WIDTH * .8 / length, DEFAULT_SQUARE_LENGTH);
         scale = squareLength / DEFAULT_SQUARE_LENGTH;
-        if (squareLength * length > window.innerWidth * .8) { //if puzzle is larger than window, we don't want to center it
+        if (squareLength * length > LETTER_WIDTH * .8) { //if puzzle is larger than window, we don't want to center it
             const puzzleContainer = document.getElementById("puzzle-container");
             puzzleContainer.setAttribute("style", `float: left; 
                     margin-left: 10vw;`)

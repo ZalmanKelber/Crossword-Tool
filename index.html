@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" id="container">
         <h1 class="text-center title">Crossword Builder</h1>
         <div class="display-info text-center" id="display-info">
             <div class="btn btn-primary finalize" style="display: none;" id="finalize">Finalize grid</div>
@@ -39,10 +39,9 @@
         </div>
     </div>
 
-    <!-- jQuery (only used for jsPdf) -->
-    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
     <!-- jsPdf -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.0/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rasterizehtml/1.3.0/rasterizeHTML.allinone.js"></script>
     <!-- app -->
     <script src="./js/pdf.js"></script>
     <script src="./js/renderHelperFunctions.js"></script>
