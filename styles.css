@@ -23,12 +23,12 @@ body {
     display: flex;
     justify-content: center;
     margin-bottom: 30px;
-    background-color: white;
 }
 
 .puzzle {
     border: black solid 1px;
     margin-top: 15px;
+    background-color: white;
 }
 
 .square {
