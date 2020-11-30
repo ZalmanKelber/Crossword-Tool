@@ -42,7 +42,7 @@ const utils = (() => {
                     return false;
                 } 
                 //check column
-                if ((j === puzzle.length || puzzle[j][i]) === squareStates.FILLED && (j < 3 || puzzle[j - 3][i]) === squareStates.FILLED 
+                if ((j === puzzle.length || puzzle[j][i] === squareStates.FILLED) && (j < 3 || puzzle[j - 3][i] === squareStates.FILLED) 
                             && puzzle[j - 1][i] !== squareStates.FILLED && puzzle[j - 2][i] !== squareStates.FILLED) { 
                     return false;
                 }
