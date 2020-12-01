@@ -37,17 +37,21 @@ The app uses a Unidrectional Data Flow, dividing the major functions into two ca
 
 * Refactor with Abraction, Encapsulation and Unidirectional Data Flow (COMPLETE)
 
-* Fix formatting so that clue text wraps around puzzle in even columns
+* Increase documentation in code
 
-* Add "download" and "review" buttons that generate pdfs
+* Add "preview" button to preview pdf
 
-* Move down or right to next empty square once a letter is entered
+* Switch from dom-to-image to a different API in order to increase resolution of downloaded pdf
 
 * Add links to One Look or some other resource
 
+### Issues:
+
+* domtoimage.toJpeg function (in pdf.js) throws an error but still works
+
 # Software Engineering Crossword Puzzle
 
-By Alex Kelber (apologies for impossibly obscure clues and outrageously bad puns)
+**By Alex Kelber** (apologies for impossibly obscure clues and outrageously bad puns)
 
 ![crossword template](/images/SoftwareDevelopmentCrossword.png) 
 
