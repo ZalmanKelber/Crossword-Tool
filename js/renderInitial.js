@@ -77,13 +77,18 @@ const renderInitial = (() => {
                 const newSquare = square.cloneNode(true);
                 square.parentNode.replaceChild(newSquare, square); //replace each square with a clone in order to clear event listeners
                 if (!newSquare.classList.contains("filled")) {
+                    const invisibleTextarea = document.createElement("textarea");
+                    invisibleTextarea.setAttribute("id", `invisible-${i}X${j}`);
+                    invisibleTextarea.setAttribute("style", "display: none;");
+                    newSquare.appendChild(invisibleTextarea);
                     const text = document.createElement("div");
                     text.setAttribute("id", `text-${i}X${j}`); //text div will display letters entered
                     text.setAttribute("class", "text");
-                    text.setAttribute("style", `font-size: ${30 * scale}px; height: ${50 * scale}px;`)
+                    text.setAttribute("style", `font-size: ${30 * scale}px; height: ${50 * scale}px;`);
                     text.addEventListener("click", e => {
                         e.stopPropagation();
                         actions.handleClick({ xPrime: i, yPrime: j });
+                        invisibleTextarea.focus();
                     });
                     newSquare.appendChild(text);
                 }
