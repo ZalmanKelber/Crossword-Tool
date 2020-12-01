@@ -91,18 +91,17 @@ const renderInitial = (() => {
         const cluesElement = document.getElementById("clues");
         cluesElement.setAttribute("style", "display: default;");
         ["across", "down"].forEach(dir => {
+            const dirElement = document.getElementById(dir);
             const dirHeading = document.createElement("h4");
             dirHeading.innerHTML = dir.toUpperCase();
-            const rule = document.createElement("hr");
-            cluesElement.appendChild(dirHeading);
-            cluesElement.appendChild(rule);
+            dirElement.appendChild(dirHeading);
             for (let i = 1; i < maxClueNum; i++) { //searches for numbered clues
                 if (i in clues[dir]) {
                     const clueText = document.createElement("p");
                     clueText.setAttribute("id", `clue-${i}-${dir}`);
                     clueText.setAttribute("class", "clue-text");
                     clueText.innerHTML = `<strong>${i}</strong> ${clues[dir][i]}`;
-                    cluesElement.appendChild(clueText);
+                    dirElement.appendChild(clueText);
                     renderHelperFunctions.addEditButton(clueText, dir, i);
                 }
             }

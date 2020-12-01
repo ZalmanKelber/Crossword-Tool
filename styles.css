@@ -1,5 +1,6 @@
 body {
     overflow: scroll;
+    background-color: white;
 }
 
 .container {
@@ -23,6 +24,7 @@ body {
     display: flex;
     justify-content: center;
     margin-bottom: 30px;
+    background-color: white;
 }
 
 .puzzle {
@@ -71,8 +73,17 @@ body {
 }
 
 .clues {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    height: 500px;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 10vw 1fr 10vw 1fr 10vw;
+    grid-template-rows: 1fr;
+    background-color: white;
+}
+
+.across {
+    grid-column: 2 / 3;
+}
+
+.down {
+    grid-column: 4 / 5;
 }

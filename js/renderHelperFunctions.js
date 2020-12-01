@@ -40,7 +40,7 @@ const renderHelperFunctions = (() => {
 
     const addEditButton = (clueTextElement, dir, i) => {
         const editButton = document.createElement("a");
-        editButton.setAttribute("class", "btn");
+        editButton.setAttribute("class", "btn edit-button");
         editButton.innerHTML = "edit";
         editButton.addEventListener("click", e => handleClickEdit(e, dir, i));
         clueTextElement.appendChild(editButton);

@@ -64,6 +64,33 @@ const renderUpdate = (() => {
         renderHelperFunctions.addEditButton(clueText, dir, i);
     };
 
-    return { renderViolations, toggleFill, addIndices, renderSelected, updateValue, renderOneClue };
+    const hideElements = () => {
+        const pdfButton = document.getElementById("pdf-button");
+        const clues = document.getElementById("clues");
+        [pdfButton, clues].forEach(el => el.setAttribute("style", "display: none;"));
+    };
+
+    const unhideElements = () => {
+        const pdfButton = document.getElementById("pdf-button");
+        const clues = document.getElementById("clues");
+        [pdfButton, clues].forEach(el => el.setAttribute("style", "display: default;"));
+    };
+
+    const cleanClues = () => {
+        const clueButtons = document.getElementsByClassName("edit-button");
+        for (let i = 0; i < clueButtons.length; i++) {
+            clueButtons[i].setAttribute("style", "display: none;")
+        }
+    };
+
+    const uncleanClues = () => {
+        const clueButtons = document.getElementsByClassName("edit-button");
+        for (let i = 0; i < clueButtons.length; i++) {
+            clueButtons[i].setAttribute("style", "display: default;")
+        }
+    };
+
+    return { renderViolations, toggleFill, addIndices, renderSelected, updateValue, renderOneClue,
+                hideElements, unhideElements, cleanClues, uncleanClues };
 
 })();
