@@ -17,9 +17,9 @@ const renderInitial = (() => {
         puzzle.setAttribute("style", `display: grid; 
                     grid-template-columns: repeat(${length}, auto);
                     grid-template-rows: repeat(${length}, auto);`);
-        const squareLength = Math.min(LETTER_WIDTH * .8 / length, DEFAULT_SQUARE_LENGTH);
+        const squareLength = Math.min(LETTER_WIDTH / length, DEFAULT_SQUARE_LENGTH);
         scale = squareLength / DEFAULT_SQUARE_LENGTH;
-        if (squareLength * length > LETTER_WIDTH * .8) { //if puzzle is larger than window, we don't want to center it
+        if (squareLength * length > LETTER_WIDTH) { //if puzzle is larger than window, we don't want to center it
             const puzzleContainer = document.getElementById("puzzle-container");
             puzzleContainer.setAttribute("style", `float: left; 
                     margin-left: 10vw;`)
@@ -63,7 +63,11 @@ const renderInitial = (() => {
         pdfButton.addEventListener("click", e => {
             e.preventDefault();
             actions.generatePdf();
-        })
+        });
+        document.getElementById("by").setAttribute("style", "display: default;");
+        const author = document.getElementById("author");
+        const title = document.getElementById("title");
+        [author, title].forEach(el => renderHelperFunctions.addSimpleEditButton(el));
     };
 
     const renderFinalPuzzle = length => {

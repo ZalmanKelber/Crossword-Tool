@@ -12,7 +12,8 @@
 
 <body>
     <div class="container" id="container">
-        <h1 class="text-center title">Crossword Builder</h1>
+        <h1 class="text-center title" id="title">Crossword Builder</h1>
+        <h4 class="text-center author" id="by" style="display: none;">by <span id="author">author</span></h4> 
         <div class="display-info text-center" id="display-info">
             <div class="btn btn-primary finalize" style="display: none;" id="finalize">Finalize grid</div>
             <p id="two-words-error" class="text-danger" style="visibility: hidden;">Error: every square must belong to two clues</p>
@@ -25,7 +26,7 @@
             <fieldset class="form-group">
                 <label>Enter grid size</label><br>
                 <input type="number" name="size-input" id="size-input">
-                <p id="error-message" class="text-danger" style="display: none;">Select an odd number between 3 and 55</p>
+                <p id="error-message" class="text-danger" style="display: none;">Select an odd number between 3 and 21</p>
             </fieldset>
             <input type="submit" class="btn btn-primary">
         </form>

@@ -2,7 +2,7 @@ const renderHelperFunctions = (() => {
     const handleSubmit = e => {
         e.preventDefault();
         const sizeInput = document.getElementById("size-input").value;
-        if (sizeInput >= 3 && sizeInput <= 55 && sizeInput % 2 == 1) {
+        if (sizeInput >= 3 && sizeInput <= 21 && sizeInput % 2 == 1) {
             actions.changeToEditGrid(sizeInput);
         } else {
             const errorMessage = document.getElementById("error-message");
@@ -46,6 +46,37 @@ const renderHelperFunctions = (() => {
         clueTextElement.appendChild(editButton);
     }
 
-    return { handleSubmit, handleInputChange, addEditButton };
+    const addSimpleEditButton = el => {
+        const editButton = document.createElement("a");
+        editButton.setAttribute("class", "btn edit-button");
+        editButton.innerHTML = "edit";
+        editButton.addEventListener("click", e => {
+            e.preventDefault();
+            const formInput = document.createElement("input");
+            formInput.setAttribute("type", "text");  
+            formInput.setAttribute("value", el.innerText.substring(0, el.innerText.length - 4));
+            formInput.addEventListener("keyup", e => {
+                if (e.key == "Enter") {
+                    e.preventDefault();
+                    el.innerHTML = formInput.value;
+                    addSimpleEditButton(el);
+                }
+            });
+            const saveButton = document.createElement("a");
+            saveButton.innerHTML = "save";
+            saveButton.setAttribute("class", "btn");
+            saveButton.addEventListener("click", e => {
+                e.preventDefault();
+                el.innerHTML = formInput.value;
+                addSimpleEditButton(el);
+            });
+            el.innerHTML = "";
+            el.appendChild(formInput);
+            el.appendChild(saveButton);
+        })
+        el.appendChild(editButton);
+    }
+
+    return { handleSubmit, handleInputChange, addEditButton, addSimpleEditButton };
 
 })();

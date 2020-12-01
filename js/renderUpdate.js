@@ -68,26 +68,24 @@ const renderUpdate = (() => {
         const pdfButton = document.getElementById("pdf-button");
         const clues = document.getElementById("clues");
         [pdfButton, clues].forEach(el => el.setAttribute("style", "display: none;"));
+        cleanClues();
     };
 
     const unhideElements = () => {
         const pdfButton = document.getElementById("pdf-button");
         const clues = document.getElementById("clues");
         [pdfButton, clues].forEach(el => el.setAttribute("style", "display: default;"));
+        uncleanClues();
     };
 
     const cleanClues = () => {
-        const clueButtons = document.getElementsByClassName("edit-button");
-        for (let i = 0; i < clueButtons.length; i++) {
-            clueButtons[i].setAttribute("style", "display: none;")
-        }
+        const clueButtons = Array.from(document.getElementsByClassName("edit-button"));
+        clueButtons.forEach(el => el.setAttribute("style", "display: none;"));
     };
 
     const uncleanClues = () => {
-        const clueButtons = document.getElementsByClassName("edit-button");
-        for (let i = 0; i < clueButtons.length; i++) {
-            clueButtons[i].setAttribute("style", "display: default;")
-        }
+        const clueButtons = Array.from(document.getElementsByClassName("edit-button"));
+        clueButtons.forEach(el => el.setAttribute("style", "display: default;"));
     };
 
     return { renderViolations, toggleFill, addIndices, renderSelected, updateValue, renderOneClue,
