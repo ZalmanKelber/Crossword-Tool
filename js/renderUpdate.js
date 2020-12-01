@@ -68,6 +68,13 @@ const renderUpdate = (() => {
         const pdfButton = document.getElementById("pdf-button");
         const clues = document.getElementById("clues");
         [pdfButton, clues].forEach(el => el.setAttribute("style", "display: none;"));
+        const squares = Array.from(document.getElementsByClassName("square"));
+        squares.forEach(sq => {
+            sq.classList.remove("selected-word");
+            sq.classList.remove("selected-letter");
+        });
+        const texts = Array.from(document.getElementsByClassName("text"));
+        texts.forEach(txt => txt.classList.add("hide-text"));
         cleanClues();
     };
 
@@ -75,6 +82,8 @@ const renderUpdate = (() => {
         const pdfButton = document.getElementById("pdf-button");
         const clues = document.getElementById("clues");
         [pdfButton, clues].forEach(el => el.setAttribute("style", "display: default;"));
+        const texts = Array.from(document.getElementsByClassName("text"));
+        texts.forEach(txt => txt.classList.remove("hide-text"));
         uncleanClues();
     };
 

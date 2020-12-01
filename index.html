@@ -13,7 +13,7 @@
 <body>
     <div class="container" id="container">
         <h1 class="text-center title" id="title">Crossword Builder</h1>
-        <h4 class="text-center author" id="by" style="display: none;">by <span id="author">author</span></h4> 
+        <h4 class="text-center author" id="by" style="display: none;">by <span id="author">[add author]</span></h4> 
         <div class="display-info text-center" id="display-info">
             <div class="btn btn-primary finalize" style="display: none;" id="finalize">Finalize grid</div>
             <p id="two-words-error" class="text-danger" style="visibility: hidden;">Error: every square must belong to two clues</p>
@@ -21,7 +21,9 @@
             <p id="divided-error" class="text-danger" style="visibility: hidden;">Error: all answers must be connected</p>
             <p id="edge-filled-error" class="text-danger" style="visibility: hidden;">Error: edge may not be completely filled in</p>
         </div>
-        <div id="pdf-button" class=" btn btn-success text-center" style="display: none;">Generate pdf</div>
+        <div class="text-center">
+            <button id="pdf-button" class=" btn btn-info text-center" style="display: none;">Generate pdf</button>
+        </div>
         <form id="form" class="text-center select-size">
             <fieldset class="form-group">
                 <label>Enter grid size</label><br>

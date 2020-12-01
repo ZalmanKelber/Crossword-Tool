@@ -1,7 +1,6 @@
 const renderInitial = (() => {
 
     const DEFAULT_SQUARE_LENGTH = 50;
-    const LETTER_WIDTH = 563;
     let scale = 1; //variable can be assigned and accessed by other renderInitial functions
     
     const initializePage = () => {
@@ -17,13 +16,8 @@ const renderInitial = (() => {
         puzzle.setAttribute("style", `display: grid; 
                     grid-template-columns: repeat(${length}, auto);
                     grid-template-rows: repeat(${length}, auto);`);
-        const squareLength = Math.min(LETTER_WIDTH / length, DEFAULT_SQUARE_LENGTH);
+        const squareLength = Math.min(innerWidth * .9 / length, DEFAULT_SQUARE_LENGTH);
         scale = squareLength / DEFAULT_SQUARE_LENGTH;
-        if (squareLength * length > LETTER_WIDTH) { //if puzzle is larger than window, we don't want to center it
-            const puzzleContainer = document.getElementById("puzzle-container");
-            puzzleContainer.setAttribute("style", `float: left; 
-                    margin-left: 10vw;`)
-        }
         for (let i = 0; i < length; i++) {
             for (let j = 0; j < length; j++) {
                 const square = document.createElement("div");
@@ -38,7 +32,7 @@ const renderInitial = (() => {
                 const label = document.createElement("div");
                 label.setAttribute("id", `label-${i}X${j}`); //label divs will be used for numerical clue indexes on puzzle
                 label.setAttribute("class", "label");
-                label.setAttribute("style", `font-size: ${1.2 * Math.max(.5, scale)}rem;`)
+                label.setAttribute("style", `font-size: ${1.2 * Math.max(.4, scale)}rem;`)
                 square.appendChild(label);
             }
         }
@@ -77,10 +71,6 @@ const renderInitial = (() => {
                 const newSquare = square.cloneNode(true);
                 square.parentNode.replaceChild(newSquare, square); //replace each square with a clone in order to clear event listeners
                 if (!newSquare.classList.contains("filled")) {
-                    const invisibleTextarea = document.createElement("textarea");
-                    invisibleTextarea.setAttribute("id", `invisible-${i}X${j}`);
-                    invisibleTextarea.setAttribute("style", "display: none;");
-                    newSquare.appendChild(invisibleTextarea);
                     const text = document.createElement("div");
                     text.setAttribute("id", `text-${i}X${j}`); //text div will display letters entered
                     text.setAttribute("class", "text");
@@ -88,7 +78,7 @@ const renderInitial = (() => {
                     text.addEventListener("click", e => {
                         e.stopPropagation();
                         actions.handleClick({ xPrime: i, yPrime: j });
-                        invisibleTextarea.focus();
+                        text.focus();
                     });
                     newSquare.appendChild(text);
                 }
