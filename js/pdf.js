@@ -24,8 +24,6 @@ const pdf = (() => {
         } catch (err) {
             console.error(err);
         };
-        document.body.appendChild(puzzleAndTitle);
-        document.body.appendChild(cluesImage);
         renderUpdate.uncleanClues();
         cluesImage.onload = () => {
             const puzzleAndTitleHeight = PAGE_WIDTH * puzzleAndTitle.height / puzzleAndTitle.width;

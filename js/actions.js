@@ -7,19 +7,19 @@ const actions = (() => {
 
     const state = (() => {
         //state variables:
-        let phase = phases.INITIALIZED;
-        const legal = { 
+        let phase = phases.INITIALIZED; //keeps track of which phase of the editing process the user is in
+        const legal = {                 //keeps track of which rules the edited crossword is currently violating
             twoWords: true,
             threeLetters: true,
             connected: true,
             noEdges: true
         };
-        let puzzle = [];
-        let totalFilled = 0;
-        let totalLetters = 0;
-        const clues = { across: {}, down: {} };
-        let orientation = orientations.HORIZONTAL;
-        const selected =  {x: -1, y: -1 };
+        let puzzle = [];                 //keeps track of whether a given square of the puzzle is filled in, empty or has a letter written in
+        let totalFilled = 0;             //keeps track of the number of filled squares
+        let totalLetters = 0;            //keeps track of the number of letters entered into squares
+        const clues = { across: {}, down: {} };       //keeps track of the current clues, as edited by the user
+        let orientation = orientations.HORIZONTAL;    //keeps track of whether or not the selected word is horizontal or vertical
+        const selected =  {x: -1, y: -1 };            //keeps track of which square is currently selected
 
         //getters and setters
         const getPhase = () => phase;
@@ -75,6 +75,7 @@ const actions = (() => {
     })();
 
     //actions retrieve and modify state and then call appropriate render functions
+    //checks the puzzle for each of the four possible violations after new squares are filled in or un-filled in
     const checkViolations = () => {
         const puzzleCopy = state.getPuzzle();
         state.setTwoWords(utils.checkTwoWords(puzzleCopy));
@@ -84,6 +85,7 @@ const actions = (() => {
         renderUpdate.renderViolations(state.getLegal());
     };
 
+    //fills in or un-fills in a square and its mirror on the puzzle, and then calls the checkViolations action
     const toggleSquare = (i, j) => {
         const puzzleCopy = state.getPuzzle();
         const currentState = puzzleCopy[i][j];
@@ -100,6 +102,7 @@ const actions = (() => {
         renderUpdate.addIndices(puzzleCopy.length);
     };
 
+    //selects a square, or selects no square.  If the selected square is already selected, the orientation is toggled between horizontal and vertical
     const changeSelected = ({ xPrime, yPrime }) => {
         const { x, y } = state.getSelected();
         const puzzleCopy = state.getPuzzle();
@@ -111,6 +114,7 @@ const actions = (() => {
         renderUpdate.renderSelected(oldWord, newWord, { xPrime, yPrime });
     };
 
+    //changes the selected word from horizontal to vertical or vice versa while keeping the same selected square
     const changeOrientation = () => {
         const currentOrientation = state.getOrientation();
         const puzzleCopy = state.getPuzzle();
@@ -123,6 +127,7 @@ const actions = (() => {
         renderUpdate.renderSelected(oldWord, newWord, { xPrime: selected.x, yPrime: selected.y });
     };
 
+    //adds a letter to the puzzle and then selects the next blank square
     const addLetter = val => { //note that state does not store the actual value of the letter
         const { x: i, y: j } = state.getSelected();
         const puzzleCopy = state.getPuzzle();
@@ -135,12 +140,15 @@ const actions = (() => {
         renderUpdate.updateValue(i, j, val ? val : "");
     };
 
+    //selects the clicked square (x and y are provided by the DOM event listener functions)
     const handleClick = ({ xPrime, yPrime }) => { //if we click on a square that has already been selected, change the orientation
         const { x, y } = state.getSelected();
         if (x === xPrime && y === yPrime) { changeOrientation(); }
         else { changeSelected({ xPrime, yPrime }); };
     }
 
+    //arrows either change the orientation between horixontal and vertical or change the selected 
+    //square to the next available square in the specified direction
     const handleArrow = keyCode => { //37 - 40: left, up, right, down;  //change orientation or move selected square
         const puzzleCopy = state.getPuzzle();
         const { x, y } = state.getSelected(); //NB: function should only be called when a square is selected
@@ -174,6 +182,7 @@ const actions = (() => {
         }
     };
 
+    //determines whether or not letters or arrow keys should call on their respective functions
     const handleKeyDown = e => { //determine if arrow keys were pressed
         if (state.getSelected().x === -1) {
             return;
@@ -192,6 +201,7 @@ const actions = (() => {
         }
     };
 
+    //creates default clues for a puzzle once all specified squares have been filled in
     const initializeClues = () => {
         const puzzleCopy = state.getPuzzle();
         let count = 1;
@@ -216,23 +226,28 @@ const actions = (() => {
         renderInitial.renderClues(initialClues, count); //render function requires count variable in order to iterate through clues
     };
 
+    //saves an edited clue
     const saveClue = (dir, i, newClue) => {
         state.setOneClue(dir, i, newClue);
         renderUpdate.renderOneClue(dir, i, newClue);
     };
 
+    //initializes a puzzle based on the user-specified length
     const initializePuzzle = length => {
         state.setPuzzle(utils.initializePuzzle(length));
         renderInitial.renderPuzzle(length);
         renderUpdate.addIndices(length);
     };
 
+    //called when the user enters in the length of the puzzle to be edited
+    //creates puzzle and adds appropriate event listeners for next phase
     const changeToEditGrid = length => {
         initializePuzzle(length); //updates state and calls renderInitial.renderPuzzle
         state.setPhase(phases.EDIT_GRID);
         renderInitial.renderEditGridPhase();
     };
 
+    //called once a puzzle is finalized.  renders puzzle, initalizes clues and adds appropriate event listeners
     const changeToEditText = () => {
         if (state.isLegal()) {
             initializeClues(); //updates state and calls renderInitial.renderClues
@@ -242,6 +257,7 @@ const actions = (() => {
         }
     };
 
+    //calls the generatePdf function
     const generatePdf = () => {
         pdf.generatePdf(state.getPuzzle(), state.getClues());
     };
