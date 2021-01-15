@@ -7,6 +7,7 @@ const squareStates = { EMPTY: "EMPTY", FILLED: "FILLED", LETTER: "LETTER" };
 
 const utils = (() => {
 
+    //finds first unfilled square on the board; used to start the DFS that determines whether all empty squares are connected
     const findFirstUnfilled = puzzle => {
         for (let i = 0; i < puzzle.length; i++) {
             for (let j = 0; j < puzzle.length; j++) {
@@ -17,6 +18,7 @@ const utils = (() => {
         }
     }
 
+    //ensures that every empty square belongs to both a horixontal and vertical word
     const checkTwoWords = puzzle => {
         for (let i = 0; i < puzzle.length; i++) { //iterate through each row and column to search for pattern filled/edge -> empty -> filled/edge
             for (let j = 1; j <= puzzle.length; j++) { //for each row or column, we iterate from the second square to the first "square" beyond the puzzle
@@ -33,6 +35,7 @@ const utils = (() => {
         return true;
     };
 
+    //ensures that every word is at least three squares long
     const checkThreeLetters = puzzle => {
         for (let i = 0; i < puzzle.length; i++) { //iterate through each row and column to search for pattern filled/edge -> empty -> empty -> filled/edge
             for (let j = 2; j <= puzzle.length; j++) { //for each row or column, we iterate from the third square to the first "square" beyond the puzzle
@@ -51,6 +54,7 @@ const utils = (() => {
         return true;
     };
 
+    //uses a DFS to ensure that all empty squares are connected to each other
     const checkConnected = (puzzle, totalFilled) => {
         const firstUnfilled = findFirstUnfilled(puzzle);
         if (!firstUnfilled) { return true; }
@@ -74,6 +78,7 @@ const utils = (() => {
         return puzzle.length**2 - totalFilled === count; //determine if the number of squares found equals the total number of empty squares
     };
 
+    //ensures that no entire edge is filled in
     const checkNoEdges = puzzle => { //because puzzle is symmetrical, we only have to check top row and leftmost column
         return !(puzzle.every(row => row[0] === squareStates.FILLED) || puzzle[0].every(cell => cell === squareStates.FILLED));
     };
@@ -108,6 +113,9 @@ const utils = (() => {
         return { xPrime: x, yPrime: y };
     }
 
+    //moves backwards along the board to find the next square to select
+    //moves upwards or to the left depending on orientation (horizontal or vertical)
+    //if previous selected square was empty, it finds the first available empty square
     const findPrevSelected = (wasEmpty, puzzle, { x, y }, orientation) => {  
         if (x === 0 && y === 0) { return { xPrime: x, yPrime: y }}; //if we are at the beginning of the board; no need to change anything
         if (orientation === orientations.HORIZONTAL) {
@@ -136,6 +144,7 @@ const utils = (() => {
         return { xPrime: x, yPrime: y };
     }
 
+    //returns set of indices belonging to the word that the selected square is part of, depending on the selected orientation
     const getWord = (puzzle, { x, y }, currentOrientation) => { //returns all indices belonging to same word as selected square
         const indices = [[x, y]]; //NB: we are unconcerned about finding the indices in order
         const isVertical = currentOrientation === orientations.VERTICAL;
@@ -156,6 +165,7 @@ const utils = (() => {
         return indices;
     } 
 
+    //creates a length x length board of empty squares
     const initializePuzzle = length => {
         puzzle = [];
         for (let i = 0; i < length; i++) {

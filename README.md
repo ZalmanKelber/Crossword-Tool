@@ -1,5 +1,4 @@
 # Crossword Builder 
-## (Under Construction)
 
 View live on Github Pages [here](https://zalmankelber.github.io/Crossword-Tool/)
 
